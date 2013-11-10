@@ -21,7 +21,7 @@ public class RPNCalculator {
 	
 	for (int i = 0; i < splitEntries.length; i++) {
 	    try {
-		if (splitEntries.equals("+")) {
+		if (splitEntries[i].equals("+")) {
 		    this.add();
 		} else if (splitEntries[i].equals("-")) {
 		    this.subtract();
@@ -35,7 +35,7 @@ public class RPNCalculator {
 	    } catch (Exception e) {
 		StringBuffer rest = new StringBuffer("");
 		for (int j = i; j < splitEntries.length; j++) {
-		    rest.append(splitEntries[i] + " ");
+		    rest.append(splitEntries[j] + " ");
 		}
 		throw new Exception(e.getMessage() + " Stopped at " + rest);
 	    }
@@ -95,13 +95,13 @@ public class RPNCalculator {
     } // c()
     
     public static void main(String[] args) {
-	String str = "*/";
+	String str = "*";
 	System.out.println(str.matches("[\\Q.-*+/\\E]"));
 	
 	System.out.println(str.matches("[0-9.]+"));
 	try {
 	    RPNCalculator rpn = new RPNCalculator();
-	    rpn.evaluate("3 + 4.5 7 */ 5");
+	    rpn.evaluate("3 + 4.5 7 * 5");
 	    System.out.println("Pass");
 	    System.out.flush();
 	} catch (Exception e) {
