@@ -1,0 +1,10 @@
+Closed formulas for functions f0(n) - f7(n):
+
+	f0(n) = 2n - 1
+	f1(n) = (n^2 + n) / 2
+	f2(n) = (n-1)c + 1
+	f3(n) = clog_2(n) + 1
+	f4(n) = nlog_2(n) + n
+	f5(n) = (n-1)c + n
+	f6(n) = (2^(n-1) - 1) + 2^(n-1)
+	f7(n) = 2^(n+1) - n - 2
