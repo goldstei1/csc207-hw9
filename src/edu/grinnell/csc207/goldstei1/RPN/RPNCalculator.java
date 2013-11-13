@@ -1,3 +1,10 @@
+/**
+ * @author Daniel Goldstein
+ * @author Mark Lewis
+ * @author Tiffany Nguyen
+ * @author Earnest Wheeler
+ */
+
 package edu.grinnell.csc207.goldstei1.RPN;
 
 import java.util.Stack;
@@ -58,14 +65,22 @@ public class RPNCalculator {
 	    } // catch
 	} // for
     } // evaluate(String str)
-
+    
+    /**
+     * peek
+     * @pre this.vals is non-empty
+     * @exception if precondition is not met
+     * @returns the top value of the stack
+     * /
     public Double p() throws Exception {
 	if (this.vals.empty()) {
 	    throw new Exception("Stack is empty");
 	} // if
 	return this.vals.peek();
     } // p()
-
+    /**
+     * @returns the string representation of the stack
+     */
     public String s() {
 	StringBuffer sb = new StringBuffer();
 	for (int i = 0; i < this.vals.size(); i++) {
@@ -73,11 +88,18 @@ public class RPNCalculator {
 	} // for
 	return sb.toString();
     } // s()
-
+	
+    /**
+     * removes all values from the stack
+     */
     public void c() {
 	this.vals.clear();
     } // c()
-
+    /**
+     * @pre there are two elements in the stack
+     * @exception precondition is not met
+     * adds the top two elements of the stack
+     */ 
     private void add() throws Exception {
 	if (this.vals.size() >= 2) {
 	    this.vals.push(this.vals.pop() + this.vals.pop());
@@ -86,7 +108,11 @@ public class RPNCalculator {
 		    "There must be at least 2 elements on the stack to add");
 	} // else
     } // add()
-
+    /**
+     * @pre there are two elements in the stack
+     * @exception precondition is not met
+     * subtracts the top element of the stack from the second to last element
+     */ 
     private void subtract() throws Exception {
 	if (this.vals.size() >= 2) {
 	    Double tmp = this.vals.pop();
@@ -96,7 +122,11 @@ public class RPNCalculator {
 		    "There must be at least 2 elements on the stack to subtract");
 	} // else
     } // subtract()
-
+    /**
+     * @pre there are two elements in the stack
+     * @exception precondition is not met
+     * multiplies the top two elements of the stack
+     */ 	
     private void multiply() throws Exception {
 	if (this.vals.size() >= 2) {
 	    this.vals.push(this.vals.pop() * this.vals.pop());
@@ -105,7 +135,11 @@ public class RPNCalculator {
 		    "There must be at least 2 elements on the stack to multiply");
 	} // else
     } // multiply()
-
+    /**
+     * @pre there are two elements in the stack
+     * @exception precondition is not met
+     * divides the top two elements of the stack
+     */ 
     private void divide() throws Exception {
 	if (this.vals.size() >= 2) {
 	    Double tmp = this.vals.pop();
@@ -115,14 +149,22 @@ public class RPNCalculator {
 		    "There must be at least 2 elements on the stack to divide");
 	} // else
     } // divide()
-
+    /**
+     * @pre there are two elements in the stack
+     * @exception precondition is not met
+     * the second to last element of the stack is raised to the power of the
+     * last element in the stack
+     */ 	
     private void power() throws Exception {
-	if (!this.vals.empty()) {
+	if (this.vals.size() >= 2) {
 	    Double tmp = this.vals.pop();
 	    this.vals.push(Math.pow(this.vals.pop(), tmp));
-	} // if
+	} else {
+	    throw new Exception(
+		    "There must be at least 2 elements on the stack to use pow");
+	} // else
     } // power()
-
+	
     private boolean checkNumber(String str) {
 	int periodCount = 0;
 	int ifNegative = 0;
@@ -142,7 +184,8 @@ public class RPNCalculator {
 	} // for
 	return (periodCount <= 1);
     } // checkNumber(String str)
-
+    
+    // testing
     public static void main(String[] args) {
 	String str = "*";
 	System.out.println(str.matches("[\\Q.-*+/\\E]"));
@@ -157,6 +200,6 @@ public class RPNCalculator {
 	    System.out.flush();
 	} catch (Exception e) {
 	    System.out.println("malformed input: " + e.getMessage());
-	}
-    }
-}
+	} // catch
+    } // main
+} // class RPNCalulator
