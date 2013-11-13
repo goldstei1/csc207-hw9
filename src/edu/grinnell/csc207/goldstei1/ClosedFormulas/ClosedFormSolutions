@@ -1,5 +1,6 @@
 Closed formulas for functions f0(n) - f7(n):
 
+	f0 through f6 were found by examination of the first few terms.
 	f0(n) = 2n - 1
 	f1(n) = (n^2 + n) / 2
 	f2(n) = (n-1)c + 1
@@ -7,4 +8,12 @@ Closed formulas for functions f0(n) - f7(n):
 	f4(n) = nlog_2(n) + n
 	f5(n) = (n-1)c + n
 	f6(n) = (2^(n-1) - 1) + 2^(n-1)
+	
+	
+	f7(n) = n + 2(n-1) + 4(n-2) + ... + (2^(n-1) * 1)
+	This is the sum from 0 to n of 2^i(n-i)
+	You can separate this into 2 sums, which simplify to:
 	f7(n) = 2^(n+1) - n - 2
+	The sum from 0 to n of 2^i we found.
+	The sum of (2^i * i) was derived from an equation found here:
+		http://mathworld.wolfram.com/PowerSum.html
