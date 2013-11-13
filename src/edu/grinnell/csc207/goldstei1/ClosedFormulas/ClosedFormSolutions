@@ -14,6 +14,6 @@ Closed formulas for functions f0(n) - f7(n):
 	This is the sum from 0 to n of 2^i(n-i)
 	You can separate this into 2 sums, which simplify to:
 	f7(n) = 2^(n+1) - n - 2
-	The sum from 0 to n of 2^i we found.
-	The sum of (2^i * i) was derived from an equation found here:
+	The closed form for the sum from 0 to n of 2^i we found.
+	The closed form for the sum of (2^i * i) was derived from an equation found here:
 		http://mathworld.wolfram.com/PowerSum.html

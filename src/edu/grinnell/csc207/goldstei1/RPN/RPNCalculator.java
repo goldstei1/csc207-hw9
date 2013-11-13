@@ -1,18 +1,24 @@
+package edu.grinnell.csc207.goldstei1.RPN;
+
+import java.util.Stack;
+
 /**
+ * An implementation of a reverse polish notation calculator
  * @author Daniel Goldstein
  * @author Mark Lewis
  * @author Tiffany Nguyen
  * @author Earnest Wheeler
  */
-
-package edu.grinnell.csc207.goldstei1.RPN;
-
-import java.util.Stack;
-
 public class RPNCalculator {
 
+    /**
+     * The stack used for the values in the calculator
+     */
     Stack<Double> vals;
 
+    /**
+     * Constructor for an RPNCalculator
+     */
     public RPNCalculator() {
 	vals = new Stack<Double>();
     } // RPNCalculator()
@@ -21,7 +27,8 @@ public class RPNCalculator {
      * Method to evaluate (and put on the stack) a mathematical 
      * expression in reverse polish notation form
      * @param str
-     * @throws Exception
+     * @pre real numbers and operands are only terms present and are separated by spaces
+     * @throws Exception: if preconditions are not met
      */
     public void evaluate(String str) throws Exception {
 	String[] splitEntries = str.split(" ");
@@ -34,6 +41,7 @@ public class RPNCalculator {
 	    } // if
 	} // for
 
+	// Perform actions based on input
 	for (int i = 0; i < splitEntries.length; i++) {
 	    try {
 		switch (splitEntries[i]) {
@@ -61,7 +69,7 @@ public class RPNCalculator {
 		for (int j = i; j < splitEntries.length; j++) {
 		    rest.append(splitEntries[j] + " ");
 		} // for
-		throw new Exception(e.getMessage() + " Stopped at " + rest);
+		throw new Exception(e.getMessage() + " Stopped at " + rest.toString());
 	    } // catch
 	} // for
     } // evaluate(String str)
@@ -71,13 +79,14 @@ public class RPNCalculator {
      * @pre this.vals is non-empty
      * @exception if precondition is not met
      * @returns the top value of the stack
-     * /
+     */
     public Double p() throws Exception {
 	if (this.vals.empty()) {
 	    throw new Exception("Stack is empty");
 	} // if
 	return this.vals.peek();
     } // p()
+    
     /**
      * @returns the string representation of the stack
      */
@@ -95,10 +104,11 @@ public class RPNCalculator {
     public void c() {
 	this.vals.clear();
     } // c()
+    
     /**
-     * @pre there are two elements in the stack
-     * @exception precondition is not met
-     * adds the top two elements of the stack
+     * Adds the top two elements of the stack
+     * @pre there are at least two elements in the stack
+     * @exception if precondition is not met
      */ 
     private void add() throws Exception {
 	if (this.vals.size() >= 2) {
@@ -108,10 +118,11 @@ public class RPNCalculator {
 		    "There must be at least 2 elements on the stack to add");
 	} // else
     } // add()
+    
     /**
-     * @pre there are two elements in the stack
+     * Subtracts the top element of the stack from the second to last element
+     * @pre there are at least two elements in the stack
      * @exception precondition is not met
-     * subtracts the top element of the stack from the second to last element
      */ 
     private void subtract() throws Exception {
 	if (this.vals.size() >= 2) {
@@ -122,10 +133,11 @@ public class RPNCalculator {
 		    "There must be at least 2 elements on the stack to subtract");
 	} // else
     } // subtract()
+    
     /**
-     * @pre there are two elements in the stack
+     * Multiplies the top two elements of the stack
+     * @pre there are at least two elements in the stack
      * @exception precondition is not met
-     * multiplies the top two elements of the stack
      */ 	
     private void multiply() throws Exception {
 	if (this.vals.size() >= 2) {
@@ -135,10 +147,11 @@ public class RPNCalculator {
 		    "There must be at least 2 elements on the stack to multiply");
 	} // else
     } // multiply()
+    
     /**
-     * @pre there are two elements in the stack
+     * Divides the top two elements of the stack
+     * @pre there are at least two elements in the stack
      * @exception precondition is not met
-     * divides the top two elements of the stack
      */ 
     private void divide() throws Exception {
 	if (this.vals.size() >= 2) {
@@ -149,11 +162,12 @@ public class RPNCalculator {
 		    "There must be at least 2 elements on the stack to divide");
 	} // else
     } // divide()
+    
     /**
-     * @pre there are two elements in the stack
-     * @exception precondition is not met
-     * the second to last element of the stack is raised to the power of the
+     * The second to last element of the stack is raised to the power of the
      * last element in the stack
+     * @pre there are at least two elements in the stack
+     * @exception precondition is not met
      */ 	
     private void power() throws Exception {
 	if (this.vals.size() >= 2) {
@@ -165,14 +179,22 @@ public class RPNCalculator {
 	} // else
     } // power()
 	
+    /**
+     * Check if a string can be represented as a double
+     * @param str
+     * @return true if the string can be represented as a double
+     * @return false otherwise
+     */
     private boolean checkNumber(String str) {
-	int periodCount = 0;
-	int ifNegative = 0;
+	int periodCount = 0; // if more than one '.' invalid input
+	int ifNegative = 0; // variable to skip check of first value if negative
 
+	// check for negative
 	if (str.charAt(0) == '-') {
 	    ifNegative++;
 	} // if
 
+	// check every character to make sure its a digit or a period
 	for (int i = ifNegative; i < str.length(); i++) {
 	    if ((!Character.isDigit(str.charAt(i))) && (str.charAt(i) != '.')) {
 		return false;
@@ -182,7 +204,7 @@ public class RPNCalculator {
 		periodCount++;
 	    } // if
 	} // for
-	return (periodCount <= 1);
+	return (periodCount <= 1 );
     } // checkNumber(String str)
     
     // testing
@@ -194,12 +216,23 @@ public class RPNCalculator {
 	    RPNCalculator rpn = new RPNCalculator();
 	    rpn.evaluate("5 3 + 4.5 7 * 5 - /");
 	    System.out.println(rpn.s());
+	    System.out.println(rpn.p());
+	    rpn.evaluate("10.7 +");
+	    System.out.println(rpn.p());
 	    rpn.c();
 	    rpn.evaluate("5 3.27 ^");
 	    System.out.println(rpn.s());
+	    rpn.evaluate("* 4 8");
 	    System.out.flush();
 	} catch (Exception e) {
 	    System.out.println("malformed input: " + e.getMessage());
 	} // catch
+	
+	try {
+	    RPNCalculator rpn2 = new RPNCalculator();
+	    rpn2.evaluate("5 3 + 4.5* 9 - 7 *");
+	} catch (Exception e) {
+	    System.out.println("malformed input: " + e.getMessage());
+	}
     } // main
 } // class RPNCalulator
